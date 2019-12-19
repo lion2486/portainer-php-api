@@ -1,5 +1,5 @@
 {
-    "name": "mangati/portainer-api",
+    "name": "antonodintsov/portainer-api",
     "description": "Portainer API client",
     "type": "library",
     "license": "MIT",

@@ -80,6 +80,13 @@ class Client
         return $info;
     }
 
+    public function dockerContainers(int $endpointId): array
+    {
+        $info = $this->client->request('GET', "endpoints/{$endpointId}/docker/containers/json?all=1", [], $this->client->session()->headers);
+
+        return $info;
+    }
+
     /**
      * Docker stacks API
      * @return Path

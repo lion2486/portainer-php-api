@@ -94,6 +94,20 @@ class Client
         return $info;
     }
 
+    public function dockerContainerInfo(int $endpointId, string $containerId): array
+    {
+        $info = $this->client->request('GET',"endpoints/{$endpointId}/docker/containers/{$containerId}/json", [], $this->client->session()->headers);
+
+        return $info;
+    }
+
+    public function dockerContainerStats(int $endpointId, string $containerId): array
+    {
+        $info = $this->client->request('GET',"endpoints/{$endpointId}/docker/containers/{$containerId}/stats?stream=false", [], $this->client->session()->headers);
+
+        return $info;
+    }
+
     /**
      * Docker stacks API
      * @return Path

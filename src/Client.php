@@ -86,7 +86,7 @@ class Client
 
         return $info;
     }
-    
+
     public function dockerContainersRunning(int $endpointId): array
     {
         $info = $this->client->request('GET', "endpoints/{$endpointId}/docker/containers/json?all=0", [], $this->client->session()->headers);

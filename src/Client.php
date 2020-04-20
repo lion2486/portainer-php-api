@@ -11,6 +11,11 @@ use Mangati\Api\Path;
  */
 class Client
 {
+    /**
+     * @var string
+     */
+    public $authToken;
+    
     private $client;
 
     public function __construct(string $endpoint)
@@ -42,8 +47,27 @@ class Client
             'Password' => $pass,
         ];
 
-        $json = $this->client->request('POST', 'auth', $data);
-        $this->client->session()->headers[] = 'Authorization: Bearer ' . $json['jwt'];
+        $this->authToken = $json['jwt'];
+        $this->client->session()->headers[] = 'Authorization: Bearer ' . $this->authToken;
+    }
+
+    /**
+     * Set authentication token for Portainer HTTP API
+     * @param string $authToken
+     * @throws Exception
+     */
+    public function setAuthToken(string $authToken)
+    {
+        $this->authToken = $authToken;
+        foreach ($this->client->session()->headers as $key => $header)
+        {
+            if (strpos($header, "Authorization: Bearer") === 0)
+            {
+                unset($this->client->session()->headers[$key]);
+            }
+        }
+
+        $this->client->session()->headers[] = 'Authorization: Bearer ' . $this->authToken;
     }
 
     /**

@@ -47,6 +47,7 @@ class Client
             'Password' => $pass,
         ];
 
+        $json = $this->client->request('POST', 'auth', $data);
         $this->authToken = $json['jwt'];
         $this->client->session()->headers[] = 'Authorization: Bearer ' . $this->authToken;
     }

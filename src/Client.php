@@ -15,7 +15,7 @@ class Client
      * @var string
      */
     public $authToken;
-    
+
     private $client;
 
     public function __construct(string $endpoint)
@@ -129,6 +129,32 @@ class Client
     public function dockerContainerStats(int $endpointId, string $containerId): array
     {
         $info = $this->client->request('GET',"endpoints/{$endpointId}/docker/containers/{$containerId}/stats?stream=false", [], $this->client->session()->headers);
+
+        return $info;
+    }
+
+    public function dockerContainerCommand(int $endpointId, string $containerId, string $command, array $options = []): array
+    {
+        //api/endpoints/1/docker/containers/e2b25ff4953f7ac322478fcc6dc46fbbf242a3f2ad85ed1c08f3154e5e9944cb/logs?since=0&stderr=1&stdout=1&tail=100&timestamps=0
+        $info = $this->client->request('GET',"endpoints/{$endpointId}/docker/containers/{$containerId}/{$command}", $options, $this->client->session()->headers, true);
+
+        return $info;
+    }
+
+    /**
+     * Docker stack Containers
+     */
+    public function stackContainers(int $endpointId, string $stackName): array
+    {
+        // endpoints/1/docker/containers/json?all=1&filters=%7B%22label%22:%5B%22com.docker.compose.project%3Dwordpress%22%5D%7D
+        // {"label":["com.docker.compose.project=wordpress"]}
+        $filters = [
+            "all" => 1,
+            "stream" => false,
+            "filters" => "{\"label\":[\"com.docker.compose.project={$stackName}\"]}"
+        ];
+
+        $info = $this->client->request('GET',"endpoints/{$endpointId}/docker/containers/json", $filters, $this->client->session()->headers);
 
         return $info;
     }

@@ -15,6 +15,6 @@
         }
     },
     "require": {
-        "lion2486/api-client": "^0.3.3"
+        "lion2486/api-client": "^0.3.4"
     }
 }

@@ -136,7 +136,7 @@ class Client
     public function dockerContainerCommand(int $endpointId, string $containerId, string $command, array $options = []): array
     {
         //api/endpoints/1/docker/containers/e2b25ff4953f7ac322478fcc6dc46fbbf242a3f2ad85ed1c08f3154e5e9944cb/logs?since=0&stderr=1&stdout=1&tail=100&timestamps=0
-        $info = $this->client->request('GET',"endpoints/{$endpointId}/docker/containers/{$containerId}/{$command}", $options, $this->client->session()->headers, true);
+        $info = $this->client->request('POST',"endpoints/{$endpointId}/docker/containers/{$containerId}/{$command}", $options, $this->client->session()->headers, true);
 
         return $info;
     }
